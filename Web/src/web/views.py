@@ -8,9 +8,16 @@ from django.contrib import messages
 from .forms import UserForm
 from django.db.models import Case, When
 from .recommendation import Myrecommend
+from .pso_recommendation import recommendMovie
 import numpy as np 
 import pandas as pd
+from django.http import HttpResponse
 
+def test(request):
+	user = request.user
+	recommendMovie(user)
+
+	return HttpResponse("Ok")
 
 # for recommendation
 def recommend(request):
@@ -23,7 +30,7 @@ def recommend(request):
 	current_user_id= request.user.id
 	# if new user not rated any movie
 	if current_user_id>nu:
-		movie=Movie.objects.get(id=15)
+		movie=Movie.objects.get(id=20)
 		q=Myrating(user=request.user,movie=movie,rating=0)
 		q.save()
 
@@ -57,16 +64,38 @@ def detail(request,movie_id):
 		raise Http404
 	movies = get_object_or_404(Movie,id=movie_id)
 	#for rating
+	curr_rating = 0
+	my_rating_object = [x for x in Myrating.objects.filter(user=request.user, movie=movies)]
+	if len(my_rating_object) != 0:
+		curr_rating = my_rating_object[0].rating
+
 	if request.method == "POST":
 		rate = request.POST['rating']
-		ratingObject = Myrating()
-		ratingObject.user   = request.user
-		ratingObject.movie  = movies
-		ratingObject.rating = rate
-		ratingObject.save()
+		# ratingObject = Myrating()
+		# ratingObject.user   = request.user
+		# ratingObject.movie  = movies
+		# ratingObject.rating = rate
+		# ratingObject.save()
+
+		# try:
+		
+		print(my_rating_object)
+		if len(my_rating_object) == 0:
+			ratingObject = Myrating()
+			ratingObject.user   = request.user
+			ratingObject.movie  = movies
+			ratingObject.rating = rate
+			ratingObject.save()
+		else:
+			obj = my_rating_object[0]
+			obj.rating = rate
+			obj.save()
+
 		messages.success(request,"Your Rating is submited ")
 		return redirect("index")
-	return render(request,'web/detail.html',{'movies':movies})
+
+	# GET REQUEST	
+	return render(request,'web/detail.html',{'movies':movies, 'rating': curr_rating})
 
 
 # Register user
