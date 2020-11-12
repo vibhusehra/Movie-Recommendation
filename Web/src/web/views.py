@@ -7,7 +7,6 @@ from .models import Movie,Myrating
 from django.contrib import messages
 from .forms import UserForm
 from django.db.models import Case, When
-from .recommendation import Myrecommend
 from .pso_recommendation import recommendMovie
 import numpy as np 
 import pandas as pd
