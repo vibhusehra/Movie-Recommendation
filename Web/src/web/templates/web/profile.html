@@ -1,0 +1,37 @@
+{% extends 'web/base.html'%}
+{% block body %}
+
+    <div class="container-fluid">
+    </div>
+    
+    
+        <div class="container-fluid">
+        
+        <!-- Movie list -->
+        <div class="row">
+                {% if movies %}
+                {% for movie in movies %}
+                    <div class="col-sm-2 col-md-2 ">
+                        <div class="thumbnail">
+                            <h4>{{movie.movie.title}}</h4>
+                            <a href="{% url 'detail' movie.movie.id %}">
+                                <img src="{{ movie.movie.movie_logo.url}}" class="img-responsive">
+                            </a>
+                            <h5>{{movie.movie.genre}}</h5>
+                            <h5>Rating: {{movie.rating}}</h5>
+                            <div class="caption">
+    
+                                <!-- View Details -->
+                                <a href="{% url 'detail' movie.movie.id %}" class="btn btn-primary btn-sm" role="button">Change Rating</a>
+    
+                                            
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+            </div>
+        
+    </div>
+
+{% endblock %}
