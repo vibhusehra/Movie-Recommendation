@@ -1,20 +1,12 @@
 {% extends 'web/base.html'%}
 {% block body %}
+{% include "web/header.html" %}
+<!-- Card -->
 
+  <!-- Card -->
 <div class="container">
     <div class="col-xs-6 col-xs-offset-3">
-    	<form class="form-horizontal" role="search" method="get" action=''>
-         <div class="form-group">
-         <div class="input-group">	
-            <input type="text" class="form-control input-lg " name="q" value="{{ request.GET.q }}" placeholder= "Search Movies "/>
-            <span class='input-group-btn'>
-
-             <button class='btn btn-info btn-lg' type='submit'>Search
-             </button>
-         </span>
-        </div>
-     </div>
-   </form>
+    	
 
  </div>
 </div>  
@@ -25,38 +17,93 @@
             {% endfor %}
             </ul>
     {% endif %}
-    <div class="container-fluid">
+    <div class="container container-fluid">
     <div class="row">
-        <div class="col-sm-2 col-md-3">
-		<h1>Movies List</h1>
+        <div class="col-sm-6 col-md-8 col-lg-8">
+            <form class="form-horizontal" role="search" method="get" action=''>
+                <div class="form-group">
+                    <div class="input-group">	
+                        <input style="height: 30px;" type="text" class="form-control input-lg " name="q" value="{{ request.GET.q }}" placeholder= "Search Movies "/>
+                        <!-- <span class='input-group-btn'>
+                        </span> -->
+                        <button class='btn btn-secondary btn-lg' type='submit'>Search
+                        </button>
+                    </div>
+                    
+                </div>
+            </form>
         </div>
-        <div class="col-xs-offset-9  mt-3">
-        <a href="{% url 'recommend' %}" class="btn"><strong><h2>Get Recommendation</h2></strong></a>
+        <div class="col-sm-5 col-md-3 col-lg-3" style="margin-left: 80px;">
+        <a href="{% url 'recommend' %}" class="btn btn-primary btn-lg">Get Recommendation</a>
         </div>
     </div>
 	</div>
 	<div class="container-fluid">
-    
+    <h1 style="margin-left: 20px; margin-bottom: 20px;">Movies List</h1>
     <!-- Movie list -->
-    <div class="row">
+    <div class="row" style="margin-left: 20px;">
             {% if movies %}
             {% for movie in movies %}
-                <div class="col-sm-2 col-md-2 ">
-                    <div class="thumbnail">
-                        <h4>{{movie.title}}</h4>
-                        <a href="{% url 'detail' movie.id %}">
-                            <img src="{{ movie.movie_logo.url}}" class="img-responsive">
-                        </a>
-                        <h5>{{movie.genre}}</h5>
-                        <div class="caption">
+            <div style="width: 20%;">
 
-                            <!-- View Details -->
-                            <a href="{% url 'detail' movie.id %}" class="btn btn-primary btn-sm" role="button">Give Rating</a>
-
-                                        
-                        </div>
-                    </div>
+                <!-- Card image -->
+                <div class="view overlay">
+                    <a href="{% url 'detail' movie.id %}">
+                        <img src="{{ movie.movie_logo.url}}" class="img-responsive">
+                    </a>
+                  <a href="#!">
+                    <div class="mask rgba-white-slight"></div>
+                  </a>
                 </div>
+              
+                <!-- Card content -->
+                <div class="card-body">
+              
+                  <!-- Title -->
+                  <h4 class="card-title font-weight-bold"><a>{{movie.title}}</a></h4>
+                  <br>
+                  <h5>{{movie.genre}}</h5>
+                  <br>
+                  <div class="caption">
+            
+                        <!-- View Details -->
+                        <a href="{% url 'detail' movie.id %}" class="btn btn-success btn-md" role="button">Give Rating</a>
+            
+                                    
+                  </div>
+                  <!-- Data -->
+                  <!-- <ul class="list-unstyled list-inline rating mb-0">
+                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
+                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                    <li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+                    <li class="list-inline-item"><i class="fas fa-star-half-alt amber-text"></i></li>
+                    <li class="list-inline-item"><p class="text-muted">4.5 (413)</p></li>
+                  </ul> -->
+                  
+                  <!-- Text -->
+            
+                  <!-- <ul class="list-unstyled list-inline d-flex justify-content-between mb-0">
+                    <li class="list-inline-item mr-0">
+                      <div class="chip mr-0">5:30PM</div>
+                    </li>
+                    <li class="list-inline-item mr-0">
+                      <div class="chip deep-purple white-text mr-0">7:30PM</div>
+                    </li>
+                    <li class="list-inline-item mr-0">
+                      <div class="chip mr-0">8:00PM</div>
+                    </li>
+                    <li class="list-inline-item mr-0">
+                      <div class="chip mr-0">9:00PM</div>
+                    </li>
+                  </ul> -->
+            
+                  <!-- Button -->
+                  <!-- <a href="#" class="btn btn-flat deep-purple-text p-1 mx-0 mb-0">Button</a> -->
+              
+                </div>
+              
+            </div>
                 {% endfor %}
                 {% endif %}
         </div>

@@ -1,6 +1,7 @@
 {% extends 'web/base.html'%}
 {% block title %}Recommendations{% endblock %}
 {% block body %}
+{% include "web/header2.html" %}
 
 <div class="container-fluid">
 	<h2>Recommendations for You </h2>
@@ -13,7 +14,7 @@
     <div class="row">
             {% if movies_recommended %}
             {% for movie in movies_recommended %}
-                <div class="col-sm-2 col-md-2 ">
+                <!-- <div class="col-sm-2 col-md-2 ">
                     <div class="thumbnail">
                         <h4>{{movie.title}}</h4>
                         <img src="https://image.tmdb.org/t/p/w500{{ movie.image}}" class="img-responsive">
@@ -24,6 +25,38 @@
                                         
                         </div>
                     </div>
+                </div> -->
+                <div style="width: 20%;">
+
+                    <!-- Card image -->
+                    <div class="view overlay">
+
+                      <img src="https://image.tmdb.org/t/p/w500{{ movie.image}}" class="img-responsive">
+                       
+                      <a href="#!">
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+                  
+                    <!-- Card content -->
+                    <div class="card-body">
+                  
+                      <!-- Title -->
+                      <h4 class="card-title font-weight-bold"><a>{{movie.title}}</a></h4>
+                      <br>
+                      <h5>{{movie.genres}}</h5>
+                      <br>
+                      <div class="caption">
+                
+                            <!-- View Details -->
+                            
+                
+                                        
+                      </div>
+                      
+                  
+                    </div>
+                  
                 </div>
                 {% endfor %}
                 {% endif %}

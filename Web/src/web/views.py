@@ -35,7 +35,7 @@ def recommend(request):
 
 
 # List view
-def index(request):
+def home(request):
 	movies = Movie.objects.all()
 	query  = request.GET.get('q')
 	if query:
@@ -126,6 +126,10 @@ def Login(request):
 def Logout(request):
 	logout(request)
 	return redirect("login")
+
+def about(request):
+    return render(request, 'web/about.html', {'message': None})
+
 
 
 
