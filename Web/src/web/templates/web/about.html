@@ -24,7 +24,7 @@
 
   <!-- <link rel="stylesheet" href="/static/css/styles.css? {% now "U" %}"/> -->
 
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}About Us{% endblock title %}</title>
 
   {% block script %} {% endblock %}
 </head>
@@ -71,7 +71,7 @@
           </p>
         </div>
         <div class="col-lg-6 d-none d-lg-block"><img
-            src="https://res.cloudinary.com/mhmd/image/upload/v1556834136/illus_kftyh4.png" alt="" class="img-fluid">
+            src="{% static '../media/img.jpeg' %}" alt="" class="img-fluid">
         </div>
       </div>
     </div>
@@ -109,7 +109,7 @@
         <!-- Team item -->
         <div class="col-xl-3 col-sm-6 mb-5">
           <div class="bg-white rounded shadow-sm py-5 px-4"><img style="background-color: white; width: 43%;"
-              src="{% static 'css/avatarr.jpg' %}"" alt=shivamkansal" width="100"
+              src="https://res.cloudinary.com/mhmd/image/upload/v1556834130/avatar-3_hzlize.png" alt=shivamkansal" width="100"
               class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
             <h5 class="mb-0">Shivam Kansal</h5><span class="small text-uppercase text-muted">CO/325</span>
             <ul class="social mb-0 list-inline mt-3">
@@ -125,7 +125,7 @@
         <!-- Team item-->
         <div class="col-xl-3 col-sm-6 mb-5">
           <div class="bg-white rounded shadow-sm py-5 px-4"><img
-              src="https://res.cloudinary.com/mhmd/image/upload/v1556834130/avatar-3_hzlize.png" alt="" width="100"
+              src="{% static '../media/avatarr.jpg' %}" alt="" width="100"
               class="img-fluid rounded-circle mb-3 img-thumbnail shadow-sm">
             <h5 class="mb-0">Shubh Tandon</h5><span class="small text-uppercase text-muted">CO/334</span>
             <ul class="social mb-0 list-inline mt-3">
