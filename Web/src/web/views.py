@@ -80,7 +80,7 @@ def detail(request,movie_id):
 			obj.save()
 
 		messages.success(request,"Your Rating is submited ")
-		return redirect("index")
+		return redirect("home")
 
 	# GET REQUEST	
 	return render(request,'web/detail.html',{'movies':movies, 'rating': curr_rating})
@@ -99,7 +99,7 @@ def signUp(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				return redirect("index")
+				return redirect("home")
 	context ={
 		'form':form
 	}
@@ -115,7 +115,7 @@ def Login(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				return redirect("index")
+				return redirect("home")
 			else:
 				return render(request,'web/login.html',{'error_message':'Your account disable'})
 		else:

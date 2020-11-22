@@ -51,6 +51,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'about' %}"><i class="fas fa-user-alt"></i> <span style="margin-right: 10px;">About Us</span></a>
                     </li>
+                    {% if not request.user.is_authenticated %}
                     <li class="nav-item" style="margin-right: 20px;">
                         <!-- <button type="button" class="btn btn-warning">Warning</button> -->
                         <a class="nav-link btn btn-warning" href="{% url 'signup' %}" tabindex="-1"
@@ -58,9 +59,22 @@
                     </li>
                     <li class="nav-item">
                         <!-- <button type="button" class="btn btn-warning">Warning</button> -->
+
                         <a class="nav-link btn btn-warning" href="{% url 'login' %}" tabindex="-1"
                             aria-disabled="true"> <i class="fas fa-sign-in-alt"></i> Login</a>
                     </li>
+                    {% else %}
+                    <li class="nav-item" style="margin-right: 20px;">
+                        <!-- <button type="button" class="btn btn-warning">Warning</button> -->
+                        <a class="nav-link" href="{% url 'profile' %}" tabindex="-1"
+                            aria-disabled="true"> <i class="fas fa-sign-in-alt"></i> Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <!-- <button type="button" class="btn btn-warning">Warning</button> -->
+                        <a class="nav-link btn btn-warning" href="{% url 'logout' %}" tabindex="-1"
+                            aria-disabled="true"> <i class="fas fa-sign-in-alt"></i> Logout</a>
+                    </li>
+                    {% endif %}
                 </ul>
 
             </div>
