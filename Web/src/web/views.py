@@ -7,17 +7,20 @@ from .models import Movie,Myrating
 from django.contrib import messages
 from .forms import UserForm
 from django.db.models import Case, When
-from .recommendation import Myrecommend
 from .pso_recommendation import recommendMovie
 import numpy as np 
 import pandas as pd
 from django.http import HttpResponse
 
-def test(request):
-	user = request.user
-	recommendMovie(user)
 
-	return HttpResponse("Ok")
+def profile(request):
+	curr_user = request.user
+	movies_rated = Myrating.objects.filter(user=curr_user)
+
+	context = {'movies': movies_rated}
+
+	return render(request,'web/profile.html',{'movies':movies_rated})
+
 
 # for recommendation
 def recommend(request):
@@ -25,29 +28,14 @@ def recommend(request):
 		return redirect("login")
 	if not request.user.is_active:
 		raise Http404
-	df=pd.DataFrame(list(Myrating.objects.all().values()))
-	nu=df.user_id.unique().shape[0]
-	current_user_id= request.user.id
-	# if new user not rated any movie
-	if current_user_id>nu:
-		movie=Movie.objects.get(id=20)
-		q=Myrating(user=request.user,movie=movie,rating=0)
-		q.save()
-
-	print("Current user id: ",current_user_id)
-	prediction_matrix,Ymean = Myrecommend()
-	my_predictions = prediction_matrix[:,current_user_id-1]+Ymean.flatten()
-	pred_idxs_sorted = np.argsort(my_predictions)
-	pred_idxs_sorted[:] = pred_idxs_sorted[::-1]
-	pred_idxs_sorted=pred_idxs_sorted+1
-	print(pred_idxs_sorted)
-	preserved = Case(*[When(pk=pk, then=pos) for pos, pk in enumerate(pred_idxs_sorted)])
-	movie_list=list(Movie.objects.filter(id__in = pred_idxs_sorted,).order_by(preserved)[:10])
-	return render(request,'web/recommend.html',{'movie_list':movie_list})
+	user = request.user
+	movies_recommended = recommendMovie(user)
+	
+	return render(request,'web/recommend.html',{'movies_recommended':movies_recommended})
 
 
 # List view
-def index(request):
+def home(request):
 	movies = Movie.objects.all()
 	query  = request.GET.get('q')
 	if query:
@@ -92,7 +80,7 @@ def detail(request,movie_id):
 			obj.save()
 
 		messages.success(request,"Your Rating is submited ")
-		return redirect("index")
+		return redirect("home")
 
 	# GET REQUEST	
 	return render(request,'web/detail.html',{'movies':movies, 'rating': curr_rating})
@@ -111,7 +99,7 @@ def signUp(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				return redirect("index")
+				return redirect("home")
 	context ={
 		'form':form
 	}
@@ -127,7 +115,7 @@ def Login(request):
 		if user is not None:
 			if user.is_active:
 				login(request,user)
-				return redirect("index")
+				return redirect("home")
 			else:
 				return render(request,'web/login.html',{'error_message':'Your account disable'})
 		else:
@@ -138,6 +126,10 @@ def Login(request):
 def Logout(request):
 	logout(request)
 	return redirect("login")
+
+def about(request):
+    return render(request, 'web/about.html', {'message': None})
+
 
 
 

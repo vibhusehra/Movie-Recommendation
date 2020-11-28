@@ -107,11 +107,22 @@ def find_movie(user_rating, pred_matrix):
 def recommendation(n, recommendations):
     i=0
     movie_data=pd.read_csv('data/movies.csv')
+
+    #get the poster_url
+    movies_recommended = []
+    
+    
     while(n > 0):
         # print(l[user][i],"    ",movie_data["title"][l[user][i]])
+        movie = {}
         print(recommendations[i],"    ",movie_data["title"][recommendations[i]])
+        movie['title'] = movie_data["title"][recommendations[i]]
+        movie['genres'] = movie_data["genres"][recommendations[i]]
+        movie['image'] = movie_data["image"][recommendations[i]]
+        movies_recommended.append(movie)
         i += 1
         n -= 1
+    return movies_recommended
 
 
 
@@ -143,7 +154,7 @@ def recommendMovie(user):
     # print(pred_matrix[-1][:30])
 
     # recommend
-    recommendation(10, find_movie(user_ratings, pred_matrix))
+    return recommendation(10, find_movie(user_ratings, pred_matrix))
 
 
 
